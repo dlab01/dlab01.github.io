@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DLAB 수업 링크</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f4f6f9;
+      min-height: 100vh;
+      padding: 40px 20px;
+      color: #1a1a2e;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      color: #3b5bdb;
+    }
+
+    .week-info {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #888;
+      margin-bottom: 28px;
+    }
+
+    .week-info strong { color: #3b5bdb; }
+
+    /* ── 수업 섹션 ── */
+    .class-section {
+      max-width: 480px;
+      margin: 0 auto 28px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+
+    .class-header {
+      background: #3b5bdb;
+      color: #fff;
+      padding: 16px 20px;
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+
+    .teacher-list {
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* ── 선생님 카드 ── */
+    .teacher-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      background: #f8f9ff;
+      border-radius: 10px;
+      cursor: pointer;
+      border: 1.5px solid transparent;
+      transition: border-color 0.15s, background 0.15s;
+      user-select: none;
+    }
+
+    .teacher-card:hover { border-color: #3b5bdb; background: #eef1ff; }
+    .teacher-card.open  { border-color: #3b5bdb; background: #eef1ff; border-radius: 10px 10px 0 0; }
+
+    .avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: #3b5bdb;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .teacher-info { flex: 1; }
+    .teacher-name { font-weight: 600; font-size: 0.95rem; }
+    .teacher-sub  { font-size: 0.78rem; color: #888; margin-top: 2px; }
+
+    .chevron {
+      font-size: 1rem;
+      color: #aaa;
+      transition: transform 0.2s;
+    }
+    .teacher-card.open .chevron { transform: rotate(90deg); color: #3b5bdb; }
+
+    /* ── 주차 목록 ── */
+    .week-list {
+      display: none;
+      background: #f0f3ff;
+      border: 1.5px solid #3b5bdb;
+      border-top: none;
+      border-radius: 0 0 10px 10px;
+      overflow: hidden;
+    }
+    .week-list.open { display: block; }
+
+    /* ── 그리드 레이아웃 ── */
+    .week-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding: 14px;
+    }
+
+    .week-cell {
+      border-radius: 10px;
+      padding: 12px 10px;
+      text-align: center;
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.12s, transform 0.1s;
+      position: relative;
+    }
+
+    /* 활성 */
+    .week-cell.active {
+      background: #eef1ff;
+      color: #3b5bdb;
+      border: 1.5px solid #c5cef8;
+      cursor: pointer;
+    }
+    .week-cell.active:hover {
+      background: #dde3ff;
+      transform: translateY(-1px);
+    }
+
+    /* 현재 주차 강조 */
+    .week-cell.current {
+      background: #3b5bdb;
+      color: #fff;
+      border-color: #3b5bdb;
+      box-shadow: 0 3px 10px rgba(59,91,219,0.3);
+    }
+    .week-cell.current:hover {
+      background: #2f4ec4;
+      transform: translateY(-1px);
+    }
+
+    /* 잠긴 주차 */
+    .week-cell.locked {
+      background: #f5f5f5;
+      color: #ccc;
+      border: 1.5px solid #eee;
+      cursor: default;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>DLAB 수업 시트 링크 모음</h1>
+  <p class="week-info" id="weekInfo">로딩 중...</p>
+
+  <!-- MGT LAB -->
+  <div class="class-section">
+    <div class="class-header">MGT LAB</div>
+    <div class="teacher-list">
+
+      <div class="teacher-block">
+        <div class="teacher-card" onclick="toggle(this)">
+          <div class="avatar">핀</div>
+          <div class="teacher-info">
+            <div class="teacher-name">핀 선생님</div>
+            <div class="teacher-sub">1 – 12주차</div>
+          </div>
+          <span class="chevron">›</span>
+        </div>
+
+        <!-- JS로 주차 목록 생성 -->
+        <div class="week-list" id="pinWeeks"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // ── 설정 ──────────────────────────────────────────
+    // 1주차 시작일 (월요일)
+    const SEMESTER_START = new Date('2026-02-23T00:00:00');
+    const TOTAL_WEEKS = 12;
+
+    // 주차별 링크 (없으면 null)
+    const LINKS = {
+      1: 'https://docs.google.com/spreadsheets/d/1Dw_a2pipNAYjH4hpRIg6483RuDD5SY-J/edit?usp=sharing&ouid=100145867937844718830&rtpof=true&sd=true',
+      2: 'https://docs.google.com/spreadsheets/d/1TLhY0zRI5AiD9Yzn0sBpN-Mb_dfy0I7G/edit?usp=sharing&ouid=100145867937844718830&rtpof=true&sd=true',
+    };
+    // ─────────────────────────────────────────────────
+
+    function getCurrentWeek() {
+      const now = new Date();
+      const diff = now - SEMESTER_START;
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      if (days < 0) return 0; // 학기 시작 전
+      return Math.min(Math.floor(days / 7) + 1, TOTAL_WEEKS);
+    }
+
+    function getWeekRange(weekNum) {
+      const start = new Date(SEMESTER_START);
+      start.setDate(start.getDate() + (weekNum - 1) * 7);
+      const end = new Date(start);
+      end.setDate(end.getDate() + 6);
+      const fmt = (d) => `${d.getMonth()+1}/${d.getDate()}`;
+      return `${fmt(start)} – ${fmt(end)}`;
+    }
+
+    const currentWeek = getCurrentWeek();
+
+    // 상단 주차 안내
+    document.getElementById('weekInfo').innerHTML =
+      `현재 <strong>${currentWeek}주차</strong> 진행 중 (${getWeekRange(currentWeek)})`;
+
+    // 주차 그리드 생성
+    const container = document.getElementById('pinWeeks');
+    const grid = document.createElement('div');
+    grid.className = 'week-grid';
+
+    for (let w = 1; w <= TOTAL_WEEKS; w++) {
+      const link = LINKS[w] || null;
+      const isLocked = w > currentWeek || !link;
+      const isCurrent = w === currentWeek;
+
+      if (!isLocked) {
+        const a = document.createElement('a');
+        a.href = link;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.className = 'week-cell active' + (isCurrent ? ' current' : '');
+        a.innerHTML = `${w}주차`;
+        grid.appendChild(a);
+      } else {
+        const div = document.createElement('div');
+        div.className = 'week-cell locked';
+        div.innerHTML = `${w}주차`;
+        grid.appendChild(div);
+      }
+    }
+
+    container.appendChild(grid);
+
+    // 카드 토글
+    function toggle(card) {
+      const block = card.parentElement;
+      const list  = block.querySelector('.week-list');
+      const open  = list.classList.contains('open');
+      card.classList.toggle('open', !open);
+      list.classList.toggle('open', !open);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>알림장 – DLAB</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f4f6f9;
+      min-height: 100vh;
+      padding: 32px 20px 60px;
+      color: #1a1a2e;
+    }
+
+    /* ── 헤더 ── */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      max-width: 560px;
+      margin: 0 auto 20px;
+    }
+
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      color: #3b5bdb;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: 8px;
+      transition: background 0.15s;
+    }
+    .back-btn:hover { background: #eef1ff; }
+
+    .site-logo {
+      display: block;
+      width: 80px;
+      mix-blend-mode: multiply;
+      margin-left: auto;
+    }
+
+    /* ── 학생 이름 헤더 ── */
+    .student-header {
+      max-width: 560px;
+      margin: 0 auto 24px;
+      text-align: center;
+    }
+
+    .student-name {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #1a1a2e;
+    }
+
+    .student-name span {
+      color: #3b5bdb;
+    }
+
+    .week-progress {
+      font-size: 0.83rem;
+      color: #888;
+      margin-top: 4px;
+    }
+
+    /* ── 주차 그리드 ── */
+    .week-grid-section {
+      max-width: 560px;
+      margin: 0 auto 24px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+
+    .section-label {
+      background: #3b5bdb;
+      color: #fff;
+      padding: 14px 20px;
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .week-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      padding: 14px;
+    }
+
+    .week-cell {
+      border-radius: 10px;
+      padding: 12px 6px;
+      text-align: center;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.12s, transform 0.1s;
+      border: 1.5px solid transparent;
+      user-select: none;
+    }
+
+    .week-cell.active {
+      background: #eef1ff;
+      color: #3b5bdb;
+      border-color: #c5cef8;
+    }
+    .week-cell.active:hover {
+      background: #dde3ff;
+      transform: translateY(-1px);
+    }
+
+    .week-cell.current {
+      background: #3b5bdb;
+      color: #fff;
+      border-color: #3b5bdb;
+      box-shadow: 0 3px 10px rgba(59,91,219,0.3);
+    }
+    .week-cell.current:hover {
+      background: #2f4ec4;
+      transform: translateY(-1px);
+    }
+
+    .week-cell.selected {
+      outline: 2.5px solid #1a1a2e;
+      outline-offset: 2px;
+    }
+
+    .week-cell.locked {
+      background: #f5f5f5;
+      color: #ccc;
+      border-color: #eee;
+      cursor: default;
+    }
+
+    /* ── 알림장 패널 ── */
+    .panel {
+      max-width: 560px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      overflow: hidden;
+      animation: fadeIn 0.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .panel-header {
+      background: #3b5bdb;
+      color: #fff;
+      padding: 14px 20px;
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .panel-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* 목표 블록 */
+    .block-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .goal-text {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #1a1a2e;
+      background: #f4f6f9;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border-left: 3px solid #3b5bdb;
+    }
+
+    /* 문제 목록 */
+    .problem-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .problem-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      background: #f8f9ff;
+      border-radius: 10px;
+      border: 1.5px solid #eef1ff;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .problem-row:hover {
+      border-color: #3b5bdb;
+      background: #eef1ff;
+    }
+
+    .problem-title {
+      flex: 1;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #1a1a2e;
+    }
+
+    .badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .badge-platform {
+      background: #f0f0f0;
+      color: #666;
+    }
+
+    .badge-lv0  { background: #d3f9d8; color: #2f9e44; }
+    .badge-lv1  { background: #dbe4ff; color: #3b5bdb; }
+    .badge-lv2  { background: #fff3bf; color: #e67700; }
+    .badge-lv3  { background: #ffe3e3; color: #c92a2a; }
+
+    .solve-btn {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #3b5bdb;
+      white-space: nowrap;
+    }
+
+    /* 공지사항 */
+    .notice-box {
+      background: #fff9db;
+      border: 1.5px solid #ffe066;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 0.88rem;
+      color: #5c4a00;
+      line-height: 1.5;
+    }
+
+    /* 준비중 메시지 */
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #aaa;
+      font-size: 1rem;
+    }
+
+    /* 에러 페이지 */
+    .error-page {
+      max-width: 400px;
+      margin: 60px auto;
+      text-align: center;
+    }
+    .error-page h2 { font-size: 1.2rem; color: #c92a2a; margin-bottom: 8px; }
+    .error-page p  { font-size: 0.9rem; color: #888; }
+  </style>
+</head>
+<body>
+
+  <!-- 헤더 -->
+  <div class="top-bar">
+    <a href="index.html" class="back-btn">&#8592; 학생 목록</a>
+    <img src="../dlab.png" alt="D.LAB" class="site-logo" />
+  </div>
+
+  <!-- 학생 이름 -->
+  <div class="student-header">
+    <div class="student-name" id="studentName">–</div>
+    <div class="week-progress" id="weekProgress">로딩 중...</div>
+  </div>
+
+  <!-- 주차 그리드 -->
+  <div class="week-grid-section">
+    <div class="section-label">주차별 알림장</div>
+    <div class="week-grid" id="weekGrid"></div>
+  </div>
+
+  <!-- 알림장 패널 -->
+  <div class="panel" id="panel">
+    <div class="panel-header" id="panelHeader">알림장</div>
+    <div class="panel-body" id="panelBody">
+      <div class="empty-state">주차를 선택해 주세요.</div>
+    </div>
+  </div>
+
+  <script src="../data/students.js"></script>
+  <script>
+    const SEMESTER_START = new Date('2026-02-23T00:00:00');
+    const TOTAL_WEEKS = 12;
+
+    function getCurrentWeek() {
+      const diff = new Date() - SEMESTER_START;
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      if (days < 0) return 0;
+      return Math.min(Math.floor(days / 7) + 1, TOTAL_WEEKS);
+    }
+
+    function getWeekRange(weekNum) {
+      const start = new Date(SEMESTER_START);
+      start.setDate(start.getDate() + (weekNum - 1) * 7);
+      const end = new Date(start);
+      end.setDate(end.getDate() + 6);
+      const fmt = (d) => `${d.getMonth() + 1}/${d.getDate()}`;
+      return `${fmt(start)} – ${fmt(end)}`;
+    }
+
+    function getLevelBadgeClass(level) {
+      if (!level) return 'badge-lv1';
+      const lower = level.toLowerCase();
+      if (lower.includes('0')) return 'badge-lv0';
+      if (lower.includes('1')) return 'badge-lv1';
+      if (lower.includes('2')) return 'badge-lv2';
+      if (lower.includes('3') || lower.includes('4') || lower.includes('5')) return 'badge-lv3';
+      return 'badge-lv1';
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const studentId = params.get('id');
+
+    if (!studentId || !STUDENTS[studentId]) {
+      document.body.innerHTML = `
+        <div class="top-bar" style="max-width:560px;margin:0 auto 20px;">
+          <a href="index.html" class="back-btn" style="display:flex;align-items:center;gap:6px;font-size:.85rem;color:#3b5bdb;text-decoration:none;font-weight:600;padding:6px 10px;border-radius:8px;">&#8592; 학생 목록</a>
+        </div>
+        <div class="error-page">
+          <h2>학생 정보를 찾을 수 없어요</h2>
+          <p>URL을 확인하거나 목록으로 돌아가 주세요.</p>
+        </div>
+      `;
+    } else {
+      const studentData = STUDENTS[studentId];
+      const currentWeek = getCurrentWeek();
+      let selectedWeek = currentWeek > 0 ? currentWeek : 1;
+
+      function hasData(weekObj) {
+        return weekObj && (weekObj.goal || (weekObj.problems && weekObj.problems.length > 0));
+      }
+
+      if (currentWeek > 0 && !hasData(studentData.weeks[currentWeek])) {
+        for (let w = currentWeek - 1; w >= 1; w--) {
+          if (hasData(studentData.weeks[w])) { selectedWeek = w; break; }
+        }
+      }
+
+      document.getElementById('studentName').innerHTML = `<span>${studentId}</span> 학생 알림장`;
+      document.getElementById('weekProgress').textContent =
+        currentWeek > 0
+          ? `현재 ${currentWeek}주차 진행 중 (${getWeekRange(currentWeek)})`
+          : '학기 시작 전입니다';
+
+      const grid = document.getElementById('weekGrid');
+
+      for (let w = 1; w <= TOTAL_WEEKS; w++) {
+        const cell = document.createElement('div');
+        cell.dataset.week = w;
+
+        if (w > currentWeek) {
+          cell.className = 'week-cell locked';
+        } else if (w === currentWeek) {
+          cell.className = 'week-cell current' + (w === selectedWeek ? ' selected' : '');
+          cell.onclick = () => selectWeek(w);
+        } else {
+          cell.className = 'week-cell active' + (w === selectedWeek ? ' selected' : '');
+          cell.onclick = () => selectWeek(w);
+        }
+
+        cell.textContent = `${w}주차`;
+        grid.appendChild(cell);
+      }
+
+      renderPanel(selectedWeek);
+
+      function selectWeek(w) {
+        selectedWeek = w;
+        grid.querySelectorAll('.week-cell').forEach(cell => {
+          cell.classList.remove('selected');
+          if (parseInt(cell.dataset.week) === w) cell.classList.add('selected');
+        });
+        renderPanel(w);
+      }
+
+      function renderPanel(w) {
+        const weekData = studentData.weeks[w] || {};
+        const panel = document.getElementById('panel');
+        panel.style.animation = 'none';
+        panel.offsetHeight;
+        panel.style.animation = '';
+
+        document.getElementById('panelHeader').textContent = `${w}주차 알림장 (${getWeekRange(w)})`;
+
+        if (!hasData(weekData)) {
+          document.getElementById('panelBody').innerHTML =
+            `<div class="empty-state">아직 준비 중이에요 ☕<br><small style="color:#ccc;font-size:0.78rem;margin-top:6px;display:block;">곧 업데이트될 예정이에요!</small></div>`;
+          return;
+        }
+
+        let html = '';
+
+        if (weekData.goal) {
+          html += `<div><div class="block-label">&#128204; 이번 주 목표</div><div class="goal-text">${escapeHtml(weekData.goal)}</div></div>`;
+        }
+
+        if (weekData.problems && weekData.problems.length > 0) {
+          const rows = weekData.problems.map(p => `
+            <a class="problem-row" href="${escapeHtml(p.link)}" target="_blank" rel="noopener">
+              <span class="problem-title">${escapeHtml(p.title)}</span>
+              <span class="badge badge-platform">${escapeHtml(p.platform)}</span>
+              ${p.level ? `<span class="badge ${getLevelBadgeClass(p.level)}">${escapeHtml(p.level)}</span>` : ''}
+              <span class="solve-btn">풀기 &#8594;</span>
+            </a>`).join('');
+          html += `<div><div class="block-label">&#128221; 이번 주 문제</div><div class="problem-list">${rows}</div></div>`;
+        }
+
+        if (weekData.notice) {
+          html += `<div><div class="block-label">&#128226; 공지사항</div><div class="notice-box">${escapeHtml(weekData.notice)}</div></div>`;
+        }
+
+        document.getElementById('panelBody').innerHTML = html;
+      }
+    }
+  </script>
+</body>
+</html>

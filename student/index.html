@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>학생 알림장 – DLAB</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f4f6f9;
+      min-height: 100vh;
+      padding: 40px 20px;
+      color: #1a1a2e;
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      max-width: 480px;
+      margin: 0 auto 20px;
+    }
+
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      color: #3b5bdb;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: 8px;
+      transition: background 0.15s;
+    }
+    .back-btn:hover { background: #eef1ff; }
+
+    .site-logo {
+      display: block;
+      width: 80px;
+      mix-blend-mode: multiply;
+      margin-left: auto;
+    }
+
+    .week-info {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #888;
+      margin-bottom: 28px;
+    }
+    .week-info strong { color: #3b5bdb; }
+
+    .class-section {
+      max-width: 480px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+
+    .class-header {
+      background: #3b5bdb;
+      color: #fff;
+      padding: 16px 20px;
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+
+    .student-list {
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .student-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      background: #f8f9ff;
+      border-radius: 10px;
+      cursor: pointer;
+      border: 1.5px solid transparent;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .student-card:hover { border-color: #3b5bdb; background: #eef1ff; }
+
+    .student-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: #3b5bdb;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .student-info { flex: 1; }
+    .student-name { font-weight: 600; font-size: 0.95rem; }
+    .student-sub  { font-size: 0.78rem; color: #888; margin-top: 2px; }
+
+    .student-arrow { font-size: 1rem; color: #aaa; }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <a href="../index.html" class="back-btn">&#8592; 홈으로</a>
+    <img src="../dlab.png" alt="D.LAB" class="site-logo" />
+  </div>
+
+  <p class="week-info" id="weekInfo">로딩 중...</p>
+
+  <div class="class-section">
+    <div class="class-header">학생 알림장</div>
+    <div class="student-list">
+
+      <a class="student-card" href="detail.html?id=나건후">
+        <div class="student-avatar">건후</div>
+        <div class="student-info">
+          <div class="student-name">나건후</div>
+          <div class="student-sub">주차별 목표 · 문제 · 공지사항</div>
+        </div>
+        <span class="student-arrow">›</span>
+      </a>
+
+      <a class="student-card" href="detail.html?id=박노아">
+        <div class="student-avatar">노아</div>
+        <div class="student-info">
+          <div class="student-name">박노아</div>
+          <div class="student-sub">주차별 목표 · 문제 · 공지사항</div>
+        </div>
+        <span class="student-arrow">›</span>
+      </a>
+
+    </div>
+  </div>
+
+  <script>
+    const SEMESTER_START = new Date('2026-02-23T00:00:00');
+    const TOTAL_WEEKS = 12;
+
+    function getCurrentWeek() {
+      const diff = new Date() - SEMESTER_START;
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      if (days < 0) return 0;
+      return Math.min(Math.floor(days / 7) + 1, TOTAL_WEEKS);
+    }
+
+    function getWeekRange(weekNum) {
+      const start = new Date(SEMESTER_START);
+      start.setDate(start.getDate() + (weekNum - 1) * 7);
+      const end = new Date(start);
+      end.setDate(end.getDate() + 6);
+      const fmt = (d) => `${d.getMonth() + 1}/${d.getDate()}`;
+      return `${fmt(start)} – ${fmt(end)}`;
+    }
+
+    const currentWeek = getCurrentWeek();
+    document.getElementById('weekInfo').innerHTML =
+      `현재 <strong>${currentWeek}주차</strong> 진행 중 (${getWeekRange(currentWeek)})`;
+  </script>
+</body>
+</html>

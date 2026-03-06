@@ -15,33 +15,11 @@
       color: #1a1a2e;
     }
 
-    .top-bar {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      max-width: 480px;
-      margin: 0 auto 20px;
-    }
-
-    .back-btn {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.85rem;
-      color: #3b5bdb;
-      text-decoration: none;
-      font-weight: 600;
-      padding: 6px 10px;
-      border-radius: 8px;
-      transition: background 0.15s;
-    }
-    .back-btn:hover { background: #eef1ff; }
-
     .site-logo {
       display: block;
-      width: 80px;
+      margin: 0 auto 8px;
+      width: 120px;
       mix-blend-mode: multiply;
-      margin-left: auto;
     }
 
     .week-info {
@@ -50,11 +28,11 @@
       color: #888;
       margin-bottom: 28px;
     }
-    .week-info strong { color: #3b5bdb; }
+    .week-info strong { color: #7353EA; }
 
     .class-section {
       max-width: 480px;
-      margin: 0 auto;
+      margin: 0 auto 20px;
       background: #fff;
       border-radius: 16px;
       box-shadow: 0 2px 12px rgba(0,0,0,0.08);
@@ -62,84 +40,70 @@
     }
 
     .class-header {
-      background: #3b5bdb;
+      background: #7353EA;
       color: #fff;
       padding: 16px 20px;
-      font-size: 1.05rem;
+    }
+
+    .class-header-main {
+      font-size: 1rem;
       font-weight: 700;
     }
 
-    .student-list {
-      padding: 12px 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+.student-list {
+      padding: 10px 14px;
     }
 
     .student-card {
       display: flex;
       align-items: center;
-      gap: 14px;
-      padding: 14px 16px;
-      background: #f8f9ff;
+      justify-content: space-between;
+      padding: 16px 14px;
       border-radius: 10px;
-      cursor: pointer;
-      border: 1.5px solid transparent;
       text-decoration: none;
       color: inherit;
-      transition: border-color 0.15s, background 0.15s;
+      transition: background 0.15s;
     }
-    .student-card:hover { border-color: #3b5bdb; background: #eef1ff; }
+    .student-card:hover { background: #f0f3ff; }
 
-    .student-avatar {
-      width: 40px; height: 40px;
-      border-radius: 50%;
-      background: #3b5bdb;
-      color: #fff;
+    .student-name {
       font-weight: 700;
-      font-size: 0.95rem;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
+      font-size: 1.05rem;
+      color: #1a1a2e;
     }
 
-    .student-info { flex: 1; }
-    .student-name { font-weight: 600; font-size: 0.95rem; }
-    .student-sub  { font-size: 0.78rem; color: #888; margin-top: 2px; }
-
-    .student-arrow { font-size: 1rem; color: #aaa; }
+    .student-arrow {
+      font-size: 1.1rem;
+      color: #7353EA;
+    }
   </style>
 </head>
 <body>
 
-  <div class="top-bar">
-    <a href="../index.html" class="back-btn">&#8592; 홈으로</a>
-    <img src="../dlab.png" alt="D.LAB" class="site-logo" />
-  </div>
-
+  <img src="../dlab.png" alt="D.LAB Code Academy" class="site-logo" />
   <p class="week-info" id="weekInfo">로딩 중...</p>
 
   <div class="class-section">
-    <div class="class-header">학생 알림장</div>
+    <div class="class-header">
+      <div class="class-header-main">[봄/토] 1100 / 파이썬트랙</div>
+    </div>
     <div class="student-list">
-
       <a class="student-card" href="detail.html?id=나건후">
-        <div class="student-avatar">건후</div>
-        <div class="student-info">
-          <div class="student-name">나건후</div>
-          <div class="student-sub">주차별 목표 · 문제 · 공지사항</div>
-        </div>
+        <span class="student-name">나건후</span>
         <span class="student-arrow">›</span>
       </a>
+    </div>
+  </div>
 
+  <div class="class-section">
+    <div class="class-header">
+      <div class="class-header-main">[봄/토] 1400 / 파이썬트랙</div>
+    </div>
+    <div class="student-list">
       <a class="student-card" href="detail.html?id=박노아">
-        <div class="student-avatar">노아</div>
-        <div class="student-info">
-          <div class="student-name">박노아</div>
-          <div class="student-sub">주차별 목표 · 문제 · 공지사항</div>
-        </div>
+        <span class="student-name">박노아</span>
         <span class="student-arrow">›</span>
       </a>
-
     </div>
   </div>
 

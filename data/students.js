@@ -51,25 +51,31 @@ const STUDENTS = {
         goal: "정렬과 기본 탐색 알고리즘 익히기",
         problems: [
           {
-            title: "K번째수",
+            title: "배열의 평균값",
             platform: "프로그래머스",
-            link: "https://school.programmers.co.kr/learn/courses/30/lessons/42748",
+            link: "https://school.programmers.co.kr/learn/courses/30/lessons/120817",
+            level: "Lv.0"
+          },
+          {
+            title: "양꼬치",
+            platform: "프로그래머스",
+            link: "https://school.programmers.co.kr/learn/courses/30/lessons/120830",
+            level: "Lv.0"
+          },
+          {
+            title: "세균 증식",
+            platform: "프로그래머스",
+            link: "https://school.programmers.co.kr/learn/courses/30/lessons/120910",
             level: "Lv.1"
           },
           {
-            title: "가장 작은 수 제거하기",
+            title: "편지",
             platform: "프로그래머스",
-            link: "https://school.programmers.co.kr/learn/courses/30/lessons/12935",
-            level: "Lv.1"
-          },
-          {
-            title: "예산",
-            platform: "프로그래머스",
-            link: "https://school.programmers.co.kr/learn/courses/30/lessons/12982",
-            level: "Lv.1"
+            link: "https://school.programmers.co.kr/learn/courses/30/lessons/120898",
+            level: "Lv.0"
           }
         ],
-        notice: "정렬 문제는 sort() 직접 구현도 한 번씩 해보면 좋아요."
+        notice: "기본 문제로 구성했으니까 잘 풀고!! 다음주에는 반복문 문제 시험볼테니까 공부 잘해올 것!!"
       },
       3: {},
       4: {},

@@ -6,25 +6,31 @@ const STUDENTS = {
         goal: "반복문과 배열 기초 익히기",
         problems: [
           {
-            title: "평균 구하기",
+            title: "같은 숫자는 싫어",
             platform: "프로그래머스",
-            link: "https://school.programmers.co.kr/learn/courses/30/lessons/12944",
+            link: "https://school.programmers.co.kr/learn/courses/30/lessons/12906",
             level: "Lv.1"
           },
           {
-            title: "핸드폰 번호 가리기",
+            title: "머쓱이보다 키 큰 사람",
             platform: "프로그래머스",
-            link: "https://school.programmers.co.kr/learn/courses/30/lessons/12948",
+            link: "https://school.programmers.co.kr/learn/courses/30/lessons/120585",
             level: "Lv.1"
           },
           {
-            title: "콜라츠 추측",
+            title: "연속된 수의 합",
             platform: "프로그래머스",
-            link: "https://school.programmers.co.kr/learn/courses/30/lessons/12943",
+            link: "https://school.programmers.co.kr/learn/courses/30/lessons/120923",
+            level: "Lv.1"
+          },
+          {
+            title: "외계어 사전",
+            platform: "프로그래머스",
+            link: "https://school.programmers.co.kr/learn/courses/30/lessons/120869",
             level: "Lv.1"
           }
         ],
-        notice: "이번 주 반복문 개념 꼭 복습해오세요! for, while 차이 중요합니다."
+        notice: "프로그래머스에서 정답 제출하고, 다른 사람들 풀이들도 확인하기! 문제 풀다가 Ai참고하지말기 \n 다음주에는 비슷한 난이도 문제를 현장에와서 풀이할 예정(테스트)"
       },
       3: {},
       4: {},

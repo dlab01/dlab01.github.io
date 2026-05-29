@@ -1,0 +1,27 @@
+{
+  "project": "dlab01.github.io — MGT 답안 제출 시스템 개편",
+  "goal": "학생이 매주 웹에서 문제를 보고 답 제출 → 주차 네이티브 시트 1교시 탭(B=이름, D~=답)에 자동 저장. 사이트 전체 DESIGN.md 디자인 통일.",
+  "updatedAt": "2026-05-29 17:28:39 JST (+0900)",
+  "deviceLabel": "bishoe01s-MacBook-Air-4.local",
+  "branch": "main",
+  "currentFocus": "백엔드+answer.html 완성. 제출 end-to-end 검증 후 index.html 개편으로 진행.",
+  "handoff": {
+    "nextFirstAction": "answer.html 미리보기에서 박노아로 답 제출 → 시트 1교시 탭 박노아 행(B열) D열~에 저장됐는지 육안 확인"
+  },
+  "key_facts": {
+    "webapp_url": "https://script.google.com/macros/s/AKfycbzQIPWsAKgGoxGyE4oiN6BeGZcbRbPBA1YrqU2kR2gHfG9Da6gIqNGeU1XBaIPQ4vjy2Q/exec",
+    "sample_sheet_id_1_4_1": "1n4LrQf1Oxui93CdYraN554sN0CUf-miJ8hPHk8ph9Y4",
+    "sheet_must_be_native": "Apps Script는 .xlsx 못 엶. 매주 네이티브 구글 시트여야 함.",
+    "data_contract": "1교시 탭: A=번호 B=이름 C=학년 D~=질문. 2행=예시(스킵), 3행~=학생. D열 시작 고정, 질문 개수 가변.",
+    "deploy_gotcha": "코드 수정 후 배포관리→연필→버전:새 버전. 실행=나 / 액세스=모든 사용자(익명).",
+    "students": ["박노아", "김세임", "정재윤", "한아라"]
+  },
+  "milestones": [
+    { "id": "M1", "title": "기획 & 문서화", "status": "done" },
+    { "id": "M2", "title": "백엔드 Apps Script Web App", "status": "done" },
+    { "id": "M3", "title": "학생 답안 페이지 answer.html", "status": "in_progress", "note": "제출 end-to-end 검증만 남음" },
+    { "id": "M4", "title": "index.html 개편 (주차→answer 연결 + 디자인)", "status": "todo" },
+    { "id": "M5", "title": "사이트 전체 디자인 통일 (공유 CSS 토큰)", "status": "todo" },
+    { "id": "M6", "title": "운영 다듬기 (시트 등록 워크플로우/명단 DB/PIN/이미지)", "status": "todo" }
+  ]
+}

@@ -8,164 +8,551 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600&family=Montserrat:wght@500;600&display=swap" rel="stylesheet" />
   <style>
-    /* ── DESIGN.md (Geniestudio) 토큰 ── */
     :root {
-      --obsidian:#0a0d12; --silver-pine:#535862; --ash-gray:#93979f;
-      --canvas-white:#ffffff; --arctic-mist:#fafdff; --sky-wash:#ebf5ff;
-      --ghostly-blue:#cce7ff; --midnight-ink:#181d27;
-      --luminous-blue:#0099ff; --electric-blue:#0069e0;
-      --mint-glaze:#d3f6e3; --zesty-orange:#f26110;
-      --font-body:'Inter',ui-sans-serif,system-ui,-apple-system,sans-serif;
-      --font-display:'Montserrat',ui-sans-serif,system-ui,sans-serif;
+      --color-midnight-ink:#181d27;
+      --color-arctic-mist:#fafdff;
+      --color-canvas-white:#ffffff;
+      --color-obsidian:#0a0d12;
+      --color-silver-pine:#535862;
+      --color-ash-gray:#93979f;
+      --color-sky-wash:#ebf5ff;
+      --color-ghostly-blue:#cce7ff;
+      --color-electric-blue:#0069e0;
+      --color-lavender-mist:#f1e6ff;
+      --color-mint-glaze:#d3f6e3;
+      --color-sunburst-yellow:#bb9915;
+      --color-zesty-orange:#f26110;
+      --color-luminous-blue:#0099ff;
+      --gradient-whisper-fade-blue:linear-gradient(rgb(229,246,255) 0%, rgb(194,233,255) 100%);
+      --gradient-whisper-fade-violet:linear-gradient(rgb(244,235,255) 0%, rgb(228,204,255) 100%);
+      --gradient-whisper-fade-yellow:linear-gradient(rgb(255,249,224) 0%, rgb(255,236,163) 100%);
+      --font-geist:'Inter',ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      --font-aeonik:'Montserrat',ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
       --shadow-lg:rgba(4,69,144,0.08) 0px 14px 20px 4px;
     }
     * { box-sizing:border-box; margin:0; padding:0; }
     body {
-      font-family:var(--font-body); background:var(--sky-wash);
-      color:var(--obsidian); min-height:100vh; padding:32px 16px 48px;
-      letter-spacing:-0.01em; -webkit-font-smoothing:antialiased;
+      min-height:100vh;
+      font-family:var(--font-geist);
+      color:var(--color-obsidian);
+      background:var(--color-sky-wash);
+      letter-spacing:-0.01em;
+      -webkit-font-smoothing:antialiased;
     }
-    .wrap { max-width:520px; margin:0 auto; }
-    .logo { display:block; margin:0 auto 8px; width:96px; mix-blend-mode:multiply; }
-    .subtitle { text-align:center; color:var(--silver-pine); font-size:14px; margin-bottom:24px; }
-    .subtitle strong { color:var(--electric-blue); }
-
-    .card {
-      background:var(--arctic-mist); border-radius:32px; padding:32px 24px;
+    button, a { font:inherit; }
+    .page-shell {
+      width:min(1180px, calc(100vw - 64px));
+      margin:0 auto;
+      padding:32px 0 48px;
+    }
+    .topbar {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:24px;
+      margin-bottom:40px;
+    }
+    .brand {
+      display:flex;
+      align-items:center;
+      gap:14px;
+      min-width:0;
+    }
+    .brand img {
+      width:68px;
+      height:auto;
+      mix-blend-mode:multiply;
+      flex:0 0 auto;
+    }
+    .brand-text strong {
+      display:block;
+      font-family:var(--font-aeonik);
+      font-size:20px;
+      line-height:1.25;
+      letter-spacing:-0.02em;
+      font-weight:600;
+    }
+    .brand-text span {
+      display:block;
+      color:var(--color-silver-pine);
+      font-size:13px;
+      line-height:1.35;
+      margin-top:2px;
+    }
+    .top-pill {
+      display:inline-flex;
+      align-items:center;
+      min-height:40px;
+      padding:8px 18px;
+      border-radius:90px;
+      background:var(--color-canvas-white);
+      color:var(--color-silver-pine);
+      border:1px solid rgba(83,88,98,.16);
+      box-shadow:var(--shadow-lg);
+      font-size:13px;
+      font-weight:600;
+    }
+    .hero {
+      display:grid;
+      grid-template-columns:minmax(0, 1.08fr) minmax(420px, .92fr);
+      align-items:stretch;
+      gap:32px;
+    }
+    .hero-copy {
+      position:relative;
+      min-height:620px;
+      padding:56px 56px 48px;
+      border-radius:32px;
+      background:var(--color-canvas-white);
+      overflow:hidden;
       box-shadow:var(--shadow-lg);
     }
-    h1 { font-family:var(--font-display); font-weight:600; font-size:24px; letter-spacing:-0.02em; margin-bottom:6px; }
-    .hint { color:var(--silver-pine); font-size:14px; margin-bottom:20px; line-height:1.5; }
-
-    /* 이름 선택 칩 */
-    .names { display:flex; flex-wrap:wrap; gap:10px; }
-    .name-chip {
-      font-family:var(--font-body); font-weight:600; font-size:15px;
-      padding:12px 22px; border-radius:90px; border:1.5px solid var(--ash-gray);
-      background:var(--canvas-white); color:var(--obsidian); cursor:pointer;
-      transition:border-color .15s, background .15s, color .15s, transform .1s;
+    .hero-copy::before {
+      content:"";
+      position:absolute;
+      inset:24px 24px auto auto;
+      width:220px;
+      height:140px;
+      border-radius:32px;
+      background:var(--gradient-whisper-fade-blue);
+      opacity:.78;
+      transform:rotate(4deg);
     }
-    .name-chip:hover { border-color:var(--electric-blue); }
-    .name-chip:active { transform:scale(.97); }
-
-    /* PIN */
-    .pin-row { display:flex; gap:12px; justify-content:center; margin:8px 0 4px; }
-    .pin-box {
-      width:56px; height:64px; text-align:center; font-family:var(--font-display);
-      font-size:26px; font-weight:600; color:var(--obsidian); border-radius:16px;
-      border:1.5px solid #e4e7ec; background:var(--canvas-white); -webkit-text-security:disc; text-security:disc;
+    .hero-copy::after {
+      content:"";
+      position:absolute;
+      right:84px;
+      bottom:72px;
+      width:170px;
+      height:118px;
+      border-radius:32px;
+      background:var(--gradient-whisper-fade-yellow);
+      opacity:.9;
+      transform:rotate(-5deg);
     }
-    .pin-box:focus { outline:none; border-color:var(--luminous-blue); }
-    .pin-box.shake { animation:shake .3s; border-color:var(--zesty-orange); }
-    @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
-
-    .banner { padding:14px 18px; border-radius:16px; font-size:14px; margin-bottom:16px; line-height:1.5; }
-    .banner.error { background:#fff2eb; color:var(--zesty-orange); }
-    .link-btn {
-      background:none; border:none; color:var(--luminous-blue); font-family:var(--font-body);
-      font-weight:600; font-size:15px; cursor:pointer; text-decoration:underline;
+    .hero-content {
+      position:relative;
+      z-index:1;
+      max-width:620px;
     }
-    .btn-ghost {
-      font-family:var(--font-body); font-weight:600; font-size:15px;
-      padding:12px 20px; border-radius:32px; border:1.5px solid #e4e7ec;
-      background:var(--canvas-white); color:var(--obsidian); cursor:pointer; transition:border-color .15s;
+    .eyebrow {
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 16px;
+      border-radius:90px;
+      color:var(--color-electric-blue);
+      background:var(--color-ghostly-blue);
+      font-size:13px;
+      font-weight:600;
+      margin-bottom:28px;
     }
-    .btn-ghost:hover { border-color:var(--electric-blue); }
-
-    /* 주차 그리드 */
-    .weeks-head { display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:6px; }
-    .weeks-head h1 { margin:0; }
-    .now-info { color:var(--silver-pine); font-size:14px; margin-bottom:20px; line-height:1.5; }
-    .now-info strong { color:var(--electric-blue); }
-    .week-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; }
-    @media (max-width:380px) { .week-grid { grid-template-columns:repeat(2, 1fr); } }
+    .hero h1 {
+      font-family:var(--font-aeonik);
+      font-size:64px;
+      line-height:1.05;
+      letter-spacing:-0.02em;
+      font-weight:600;
+      max-width:680px;
+    }
+    .hero-lead {
+      max-width:540px;
+      margin-top:24px;
+      color:var(--color-silver-pine);
+      font-size:18px;
+      line-height:1.5;
+      font-weight:500;
+    }
+    .hero-actions {
+      display:flex;
+      align-items:center;
+      gap:14px;
+      flex-wrap:wrap;
+      margin-top:34px;
+    }
+    .primary-btn, .secondary-btn, .text-link {
+      border:none;
+      cursor:pointer;
+      text-decoration:none;
+      font-weight:600;
+    }
+    .primary-btn {
+      min-height:56px;
+      padding:15px 32px;
+      border-radius:32px;
+      background:var(--color-midnight-ink);
+      color:var(--color-canvas-white);
+      box-shadow:rgba(10,13,18,.18) 0 1px 2px 0, rgb(10,13,18) 0 0 0 1px;
+      transition:transform .16s ease, opacity .16s ease;
+    }
+    .primary-btn:hover { transform:translateY(-2px); }
+    .primary-btn:disabled { opacity:.55; cursor:not-allowed; transform:none; }
+    .secondary-btn {
+      min-height:56px;
+      padding:15px 24px;
+      border-radius:32px;
+      background:var(--color-arctic-mist);
+      color:var(--color-obsidian);
+      border:1px solid rgba(83,88,98,.14);
+    }
+    .text-link {
+      background:none;
+      color:var(--color-luminous-blue);
+      font-size:14px;
+    }
+    .class-notes {
+      position:relative;
+      z-index:1;
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0, 1fr));
+      gap:14px;
+      margin-top:78px;
+      max-width:650px;
+    }
+    .note-card {
+      min-height:132px;
+      padding:20px;
+      border-radius:32px;
+      background:var(--color-arctic-mist);
+      border:1px solid rgba(83,88,98,.12);
+    }
+    .note-card strong {
+      display:block;
+      font-family:var(--font-aeonik);
+      font-size:20px;
+      line-height:1.25;
+      letter-spacing:-0.02em;
+      margin-bottom:8px;
+    }
+    .note-card span {
+      display:block;
+      color:var(--color-silver-pine);
+      font-size:13px;
+      line-height:1.45;
+    }
+    .studio-panel {
+      min-height:620px;
+      border-radius:32px;
+      background:var(--color-arctic-mist);
+      box-shadow:var(--shadow-lg);
+      padding:28px;
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+    .panel-head {
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:18px;
+    }
+    .panel-title {
+      font-family:var(--font-aeonik);
+      font-size:24px;
+      line-height:1.2;
+      letter-spacing:-0.02em;
+      font-weight:600;
+    }
+    .panel-desc {
+      color:var(--color-silver-pine);
+      font-size:14px;
+      line-height:1.5;
+      margin-top:8px;
+    }
+    .status-badge {
+      flex:0 0 auto;
+      padding:8px 14px;
+      border-radius:90px;
+      background:var(--color-mint-glaze);
+      color:#0c6b3f;
+      font-size:12px;
+      font-weight:600;
+    }
+    .panel-stage {
+      display:none;
+      flex:1;
+    }
+    .panel-stage.active {
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+    .week-feature {
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:20px;
+      align-items:end;
+      padding:28px;
+      border-radius:32px;
+      background:var(--color-canvas-white);
+      border:1px solid rgba(83,88,98,.12);
+    }
+    .week-kicker {
+      color:var(--color-electric-blue);
+      font-size:13px;
+      font-weight:600;
+      margin-bottom:10px;
+    }
+    .week-feature h2 {
+      font-family:var(--font-aeonik);
+      font-size:48px;
+      line-height:1.05;
+      letter-spacing:-0.02em;
+      font-weight:600;
+    }
+    .week-feature p {
+      color:var(--color-silver-pine);
+      font-size:14px;
+      line-height:1.5;
+      margin-top:12px;
+      max-width:330px;
+    }
+    .week-date-pill {
+      padding:14px 18px;
+      border-radius:24px;
+      background:var(--gradient-whisper-fade-violet);
+      color:var(--color-obsidian);
+      font-weight:600;
+      text-align:center;
+      min-width:92px;
+    }
+    .week-grid {
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0, 1fr));
+      gap:10px;
+    }
     .week-cell {
-      display:flex; flex-direction:column; align-items:center; gap:3px;
-      border-radius:16px; padding:16px 8px; text-align:center; text-decoration:none;
-      font-family:var(--font-body); border:1.5px solid #e4e7ec; background:var(--canvas-white);
-      color:var(--ash-gray);
+      min-height:82px;
+      padding:14px 12px;
+      border-radius:24px;
+      background:var(--color-canvas-white);
+      border:1px solid rgba(83,88,98,.14);
+      color:var(--color-ash-gray);
+      text-align:left;
     }
-    .week-cell .wk-num { font-weight:600; font-size:15px; }
-    .week-cell .wk-date { font-size:12px; }
-    /* 현재 주차 (열림·클릭 가능) */
-    .week-cell.current {
-      background:var(--midnight-ink); color:var(--canvas-white); border-color:var(--midnight-ink);
-      cursor:pointer; transition:transform .1s;
+    .week-cell.open {
+      background:var(--color-midnight-ink);
+      border-color:var(--color-midnight-ink);
+      color:var(--color-canvas-white);
     }
-    .week-cell.current .wk-date { color:#aab1c2; }
-    .week-cell.current:hover { transform:translateY(-2px); }
-    /* 잠긴 주차 (지난·예정) */
-    .week-cell.locked { background:var(--sky-wash); border-style:dashed; border-color:#c5cef8; cursor:default; }
-    .week-cell.locked .wk-num::after { content:" 🔒"; font-size:11px; }
-
-    .hidden { display:none; }
+    .week-cell strong {
+      display:block;
+      font-size:15px;
+      line-height:1.25;
+      margin-bottom:7px;
+    }
+    .week-cell span {
+      display:block;
+      font-size:12px;
+      line-height:1.3;
+      color:inherit;
+      opacity:.78;
+    }
+    .login-card {
+      padding:28px;
+      border-radius:32px;
+      background:var(--color-canvas-white);
+      border:1px solid rgba(83,88,98,.12);
+    }
+    .login-step {
+      display:none;
+    }
+    .login-step.active {
+      display:block;
+    }
+    .names {
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:12px;
+      margin-top:22px;
+    }
+    .name-chip {
+      min-height:58px;
+      border-radius:90px;
+      border:1.5px solid rgba(83,88,98,.18);
+      background:var(--color-arctic-mist);
+      color:var(--color-obsidian);
+      font-weight:600;
+      cursor:pointer;
+      transition:background .15s ease, color .15s ease, border-color .15s ease, transform .15s ease;
+    }
+    .name-chip:hover { border-color:var(--color-electric-blue); transform:translateY(-1px); }
+    .name-chip.selected {
+      background:var(--color-midnight-ink);
+      border-color:var(--color-midnight-ink);
+      color:var(--color-canvas-white);
+    }
+    .pin-row {
+      display:flex;
+      gap:12px;
+      margin-top:22px;
+    }
+    .pin-box {
+      width:64px;
+      height:70px;
+      text-align:center;
+      font-family:var(--font-aeonik);
+      font-size:28px;
+      font-weight:600;
+      color:var(--color-obsidian);
+      border-radius:16px;
+      border:1.5px solid rgba(83,88,98,.18);
+      background:var(--color-arctic-mist);
+      -webkit-text-security:disc;
+      text-security:disc;
+    }
+    .pin-box:focus {
+      outline:none;
+      border-color:var(--color-luminous-blue);
+      background:var(--color-canvas-white);
+    }
+    .pin-box.shake {
+      animation:shake .28s;
+      border-color:var(--color-zesty-orange);
+    }
+    @keyframes shake {
+      0%,100% { transform:translateX(0); }
+      25% { transform:translateX(-6px); }
+      75% { transform:translateX(6px); }
+    }
+    .banner {
+      padding:14px 18px;
+      border-radius:16px;
+      font-size:14px;
+      line-height:1.5;
+      margin-top:16px;
+    }
+    .banner.error {
+      background:#fff2eb;
+      color:var(--color-zesty-orange);
+    }
+    .login-actions {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-top:22px;
+    }
+    .hidden { display:none !important; }
+    @media (max-width:960px) {
+      .page-shell { width:min(100% - 32px, 760px); }
+      .hero { grid-template-columns:1fr; }
+      .hero-copy, .studio-panel { min-height:auto; }
+      .hero h1 { font-size:48px; }
+      .class-notes { grid-template-columns:1fr; margin-top:42px; }
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <img src="dlab.png" alt="D.LAB Code Academy" class="logo" />
-    <p class="subtitle"><strong>MGT LAB</strong> · 핀 선생님</p>
-
-    <!-- STEP 1: 이름 선택 -->
-    <section class="card" id="stepName">
-      <h1>이름을 선택하세요</h1>
-      <p class="hint">로그인 후 이번 주차 문제로 들어갈 수 있어요.</p>
-      <div class="names" id="nameList"></div>
-    </section>
-
-    <!-- STEP 2: PIN -->
-    <section class="card hidden" id="stepPin">
-      <h1>비밀번호 입력</h1>
-      <p class="hint"><strong id="pinName"></strong> 님, 4자리 비밀번호를 입력하세요.</p>
-      <div class="pin-row" id="pinRow"></div>
-      <div id="pinBanner"></div>
-      <button class="btn-ghost" id="pinBack">← 이름 다시</button>
-    </section>
-
-    <!-- STEP 3: 주차 그리드 -->
-    <section class="card hidden" id="stepWeeks">
-      <div class="weeks-head">
-        <h1>주차 선택</h1>
-        <button class="link-btn" id="logout">이름 바꾸기</button>
+  <main class="page-shell">
+    <header class="topbar">
+      <div class="brand">
+        <img src="dlab.png" alt="D.LAB Code Academy" />
+        <div class="brand-text">
+          <strong>MGT LAB</strong>
+          <span>핀 선생님과 함께하는 주차별 답안 제출</span>
+        </div>
       </div>
-      <p class="now-info" id="nowInfo"></p>
-      <div class="week-grid" id="weekGrid"></div>
+      <div class="top-pill" id="topStatus">컴퓨터 수업실 전용</div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="hero-content">
+          <div class="eyebrow">D.LAB Daechi MGT</div>
+          <h1>오늘 수업 답안은 여기서 바로 제출해요.</h1>
+          <p class="hero-lead">
+            시트를 직접 열지 않고, 이번 주차 문제를 읽고 본인 답만 안전하게 저장합니다.
+            수업 중 컴퓨터 화면에 맞춰 넓고 또렷하게 구성했어요.
+          </p>
+          <div class="hero-actions">
+            <button class="primary-btn" id="startBtn">이번 주차 시작하기</button>
+            <button class="secondary-btn" id="viewWeeksBtn">주차 보드 보기</button>
+          </div>
+        </div>
+
+        <div class="class-notes" aria-label="수업 흐름">
+          <div class="note-card">
+            <strong>01</strong>
+            <span>이름과 PIN으로 본인 확인을 먼저 합니다.</span>
+          </div>
+          <div class="note-card">
+            <strong>02</strong>
+            <span>현재 열린 주차의 문제를 넓은 화면에서 풉니다.</span>
+          </div>
+          <div class="note-card">
+            <strong>03</strong>
+            <span>제출하면 주차 시트의 본인 행에만 저장됩니다.</span>
+          </div>
+        </div>
+      </div>
+
+      <aside class="studio-panel" aria-live="polite">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title" id="panelTitle">이번 주차 보드</div>
+            <p class="panel-desc" id="panelDesc">열린 주차만 답안 제출로 연결됩니다.</p>
+          </div>
+          <div class="status-badge" id="statusBadge">Open</div>
+        </div>
+
+        <section class="panel-stage active" id="stageBoard">
+          <div class="week-feature">
+            <div>
+              <div class="week-kicker">Now Open</div>
+              <h2 id="currentWeekTitle">1주차</h2>
+              <p id="currentWeekCopy">오늘 풀 문제를 시작하려면 먼저 이름과 PIN을 입력하세요.</p>
+            </div>
+            <div class="week-date-pill" id="currentWeekDate">5/30</div>
+          </div>
+          <div class="week-grid" id="weekGrid"></div>
+        </section>
+
+        <section class="panel-stage" id="stageLogin">
+          <div class="login-card">
+            <div class="login-step active" id="loginName">
+              <div class="panel-title">이름을 선택하세요</div>
+              <p class="panel-desc">선택한 이름으로 이번 주차 답안 화면에 들어갑니다.</p>
+              <div class="names" id="nameList"></div>
+            </div>
+            <div class="login-step" id="loginPin">
+              <div class="panel-title">PIN 입력</div>
+              <p class="panel-desc"><strong id="pinName"></strong> 님, 4자리 PIN을 입력하세요.</p>
+              <div class="pin-row" id="pinRow"></div>
+              <div id="pinBanner"></div>
+              <div class="login-actions">
+                <button class="text-link" id="pinBack">이름 다시 선택</button>
+                <button class="primary-btn" id="pinSubmit">입장하기</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </aside>
     </section>
-  </div>
+  </main>
 
   <script>
-    // ── 설정 ──────────────────────────────────────────
     const STUDENTS = ['박노아', '김세임', '정재윤', '한아라'];
-    // 주차별 토요일 날짜 (8/1은 휴강 → 스킵). 인덱스+1 = 주차 번호.
     const WEEK_DATES = [
-      '2026-05-30', // 1주차
-      '2026-06-06', // 2주차
-      '2026-06-13', // 3주차
-      '2026-06-20', // 4주차
-      '2026-06-27', // 5주차
-      '2026-07-04', // 6주차
-      '2026-07-11', // 7주차
-      '2026-07-18', // 8주차
-      '2026-07-25', // 9주차
-      '2026-08-08', // 10주차 (8/1 휴강 스킵)
-      '2026-08-15', // 11주차
+      '2026-05-30',
+      '2026-06-06',
+      '2026-06-13',
+      '2026-06-20',
+      '2026-06-27',
+      '2026-07-04',
+      '2026-07-11',
+      '2026-07-18',
+      '2026-07-25',
+      '2026-08-08',
+      '2026-08-15',
     ];
-    const TOTAL_WEEKS = WEEK_DATES.length;
-    // 주차 → 시트 ID (매주 추가). 없으면 null → 잠금.
     const SHEETS = {
       1: '1n4LrQf1Oxui93CdYraN554sN0CUf-miJ8hPHk8ph9Y4',
     };
-    // ─────────────────────────────────────────────────
 
     const $ = (id) => document.getElementById(id);
-    const STEPS = ['stepName', 'stepPin', 'stepWeeks'];
     let selectedName = null;
 
-    function showStep(id) {
-      STEPS.forEach((s) => $(s).classList.toggle('hidden', s !== id));
-    }
-
-    // 현재 주차: 날짜가 지난 마지막 주차. 학기 시작 전이면 1주차로 열어둠.
     function getCurrentWeek() {
       const now = new Date();
       let cur = 1;
@@ -174,109 +561,144 @@
       }
       return cur;
     }
+
     function weekDate(w) {
       const d = new Date(WEEK_DATES[w - 1] + 'T00:00:00');
       return `${d.getMonth() + 1}/${d.getDate()}`;
     }
 
-    /* ── STEP 1: 이름 ── */
-    STUDENTS.forEach((name) => {
-      const b = document.createElement('button');
-      b.className = 'name-chip';
-      b.textContent = name;
-      b.onclick = () => goToPin(name);
-      $('nameList').appendChild(b);
-    });
+    function currentSheet() {
+      return SHEETS[getCurrentWeek()];
+    }
+
+    function showStage(id) {
+      ['stageBoard', 'stageLogin'].forEach((stage) => $(stage).classList.toggle('active', stage === id));
+      const isLogin = id === 'stageLogin';
+      $('panelTitle').textContent = isLogin ? '수업실 입장' : '이번 주차 보드';
+      $('panelDesc').textContent = isLogin ? '답안 화면에 들어가기 전에 본인 확인을 합니다.' : '열린 주차만 답안 제출로 연결됩니다.';
+      $('statusBadge').textContent = isLogin ? 'Login' : 'Open';
+    }
+
+    function goToCurrentWeek() {
+      const week = getCurrentWeek();
+      const sheetId = SHEETS[week];
+      if (!sheetId) return;
+      location.href = `answer.html?sheetId=${sheetId}&week=${week}`;
+    }
+
+    function startFlow() {
+      if (!currentSheet()) return;
+      const saved = sessionStorage.getItem('mgt:name');
+      if (saved && STUDENTS.includes(saved)) {
+        selectedName = saved;
+        goToCurrentWeek();
+        return;
+      }
+      showStage('stageLogin');
+      showLoginStep('loginName');
+    }
+
+    function showLoginStep(id) {
+      ['loginName', 'loginPin'].forEach((step) => $(step).classList.toggle('active', step === id));
+    }
+
+    function buildWeekGrid() {
+      const cur = getCurrentWeek();
+      $('currentWeekTitle').textContent = `${cur}주차`;
+      $('currentWeekDate').textContent = weekDate(cur);
+      $('currentWeekCopy').textContent = currentSheet()
+        ? '오늘 풀 문제를 시작하려면 먼저 이름과 PIN을 입력하세요.'
+        : '아직 이번 주차 시트가 연결되지 않았습니다.';
+      $('startBtn').disabled = !currentSheet();
+
+      const grid = $('weekGrid');
+      grid.innerHTML = '';
+      for (let w = 1; w <= WEEK_DATES.length; w++) {
+        const cell = document.createElement('div');
+        const isOpen = w === cur && !!SHEETS[w];
+        cell.className = `week-cell${isOpen ? ' open' : ''}`;
+        cell.innerHTML = `<strong>${w}주차</strong><span>${weekDate(w)}${isOpen ? ' · 제출 가능' : ' · 잠김'}</span>`;
+        grid.appendChild(cell);
+      }
+    }
+
+    function buildNameList() {
+      const list = $('nameList');
+      list.innerHTML = '';
+      STUDENTS.forEach((name) => {
+        const button = document.createElement('button');
+        button.className = 'name-chip';
+        button.textContent = name;
+        button.onclick = () => goToPin(name);
+        list.appendChild(button);
+      });
+    }
 
     function goToPin(name) {
       selectedName = name;
       $('pinName').textContent = name;
       $('pinBanner').innerHTML = '';
       buildPinBoxes();
-      showStep('stepPin');
+      showLoginStep('loginPin');
       setTimeout(() => $('pin0').focus(), 80);
     }
-    $('pinBack').onclick = () => showStep('stepName');
 
-    /* ── STEP 2: PIN ── */
     function buildPinBoxes() {
       const row = $('pinRow');
       row.innerHTML = '';
       for (let i = 0; i < 4; i++) {
-        const inp = document.createElement('input');
-        inp.className = 'pin-box';
-        inp.id = 'pin' + i;
-        inp.inputMode = 'numeric';
-        inp.maxLength = 1;
-        inp.autocomplete = 'off';
-        inp.oninput = () => {
-          inp.value = inp.value.replace(/\D/g, '');
-          if (inp.value && i < 3) $('pin' + (i + 1)).focus();
-          if (i === 3 && inp.value) trySubmitPin();
+        const input = document.createElement('input');
+        input.className = 'pin-box';
+        input.id = 'pin' + i;
+        input.inputMode = 'numeric';
+        input.maxLength = 1;
+        input.autocomplete = 'off';
+        input.oninput = () => {
+          input.value = input.value.replace(/\D/g, '');
+          if (input.value && i < 3) $('pin' + (i + 1)).focus();
+          if (i === 3 && input.value) trySubmitPin();
         };
-        inp.onkeydown = (e) => {
-          if (e.key === 'Backspace' && !inp.value && i > 0) $('pin' + (i - 1)).focus();
+        input.onkeydown = (event) => {
+          if (event.key === 'Backspace' && !input.value && i > 0) $('pin' + (i - 1)).focus();
+          if (event.key === 'Enter') trySubmitPin();
         };
-        row.appendChild(inp);
+        row.appendChild(input);
       }
     }
-    function readPin() { return [0, 1, 2, 3].map((i) => $('pin' + i).value).join(''); }
 
-    // v1: 프런트 게이트(전부 1234). 추후 백엔드 `명단` 탭 검증으로 교체하기 쉽게 분리.
-    async function verifyPin(name, pin) { return pin === '1234'; }
+    function readPin() {
+      return [0, 1, 2, 3].map((i) => $('pin' + i).value).join('');
+    }
+
+    async function verifyPin(name, pin) {
+      return pin === '1234';
+    }
 
     async function trySubmitPin() {
       const pin = readPin();
       if (pin.length < 4) return;
       const ok = await verifyPin(selectedName, pin);
       if (!ok) {
-        $('pinRow').querySelectorAll('.pin-box').forEach((b) => { b.classList.add('shake'); b.value = ''; });
-        setTimeout(() => $('pinRow').querySelectorAll('.pin-box').forEach((b) => b.classList.remove('shake')), 300);
-        $('pinBanner').innerHTML = '<div class="banner error">비밀번호가 맞지 않아요. 다시 입력해주세요.</div>';
+        $('pinRow').querySelectorAll('.pin-box').forEach((box) => {
+          box.classList.add('shake');
+          box.value = '';
+        });
+        setTimeout(() => $('pinRow').querySelectorAll('.pin-box').forEach((box) => box.classList.remove('shake')), 300);
+        $('pinBanner').innerHTML = '<div class="banner error">PIN이 맞지 않아요. 다시 입력해주세요.</div>';
         $('pin0').focus();
         return;
       }
       sessionStorage.setItem('mgt:name', selectedName);
-      enterWeeks();
+      goToCurrentWeek();
     }
 
-    /* ── STEP 3: 주차 그리드 ── */
-    function enterWeeks() {
-      const cur = getCurrentWeek();
-      $('nowInfo').innerHTML =
-        `${selectedName} 님, 현재 <strong>${cur}주차</strong> (${weekDate(cur)})가 열려 있어요.`;
-      const grid = $('weekGrid');
-      grid.innerHTML = '';
-      for (let w = 1; w <= TOTAL_WEEKS; w++) {
-        const open = (w === cur) && !!SHEETS[w];
-        if (open) {
-          const a = document.createElement('a');
-          a.className = 'week-cell current';
-          a.href = `answer.html?sheetId=${SHEETS[w]}&week=${w}`;
-          a.innerHTML = `<span class="wk-num">${w}주차</span><span class="wk-date">${weekDate(w)}</span>`;
-          grid.appendChild(a);
-        } else {
-          const d = document.createElement('div');
-          d.className = 'week-cell locked';
-          d.innerHTML = `<span class="wk-num">${w}주차</span><span class="wk-date">${weekDate(w)}</span>`;
-          grid.appendChild(d);
-        }
-      }
-      showStep('stepWeeks');
-    }
+    $('startBtn').onclick = startFlow;
+    $('viewWeeksBtn').onclick = () => showStage('stageBoard');
+    $('pinBack').onclick = () => showLoginStep('loginName');
+    $('pinSubmit').onclick = trySubmitPin;
 
-    $('logout').onclick = () => {
-      sessionStorage.removeItem('mgt:name');
-      selectedName = null;
-      showStep('stepName');
-    };
-
-    /* ── 진입: 같은 세션에서 이미 로그인했으면 주차로 ── */
-    const saved = sessionStorage.getItem('mgt:name');
-    if (saved && STUDENTS.includes(saved)) {
-      selectedName = saved;
-      enterWeeks();
-    }
+    buildWeekGrid();
+    buildNameList();
   </script>
 </body>
 </html>

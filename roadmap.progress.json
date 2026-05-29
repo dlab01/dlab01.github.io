@@ -1,12 +1,12 @@
 {
   "project": "dlab01.github.io — MGT 답안 제출 시스템 개편",
   "goal": "학생이 매주 웹에서 문제를 보고 답 제출 → 주차 네이티브 시트 1교시 탭(B=이름, D~=답)에 자동 저장. 사이트 전체 DESIGN.md 디자인 통일.",
-  "updatedAt": "2026-05-29 17:59:39 JST (+0900)",
+  "updatedAt": "2026-05-29 18:52:37 JST (+0900)",
   "deviceLabel": "bishoe01s-MacBook-Air-4.local",
   "branch": "main",
-  "currentFocus": "answer.html Typeform 스텝퍼 + index.html 로그인 게이트/주차 시스템(11주) 개편 완료(미커밋). 다음은 매주 시트 등록 자동화 범위 결정(한 줄+push vs 마스터 시트 config) + plan.md 스펙 동기화.",
+  "currentFocus": "index.html/answer.html을 컴퓨터 수업실 전용 Geniestudio 디자인으로 재작업 완료(미커밋). answer.html은 3열 데스크톱 워크스페이스, 답변 textarea는 좌우 패널 높이까지 자동 확장 후 내부 스크롤.",
   "handoff": {
-    "nextFirstAction": "자동화 범위 결정: 매주 index.html SHEETS에 '주차: 시트ID' 한 줄 추가+push 유지 vs 마스터 구글 시트 config 탭으로 빼서 zero-touch(백엔드 ?action=weeks). 사용자가 물어본 미결 항목."
+    "nextFirstAction": "브라우저로 index.html과 answer.html을 한 번 더 디자인 QA한 뒤, 마음에 들면 plan.md §5.1/§8을 데스크톱 워크스페이스 기준으로 동기화."
   },
   "key_facts": {
     "webapp_url": "https://script.google.com/macros/s/AKfycbzQIPWsAKgGoxGyE4oiN6BeGZcbRbPBA1YrqU2kR2gHfG9Da6gIqNGeU1XBaIPQ4vjy2Q/exec",
@@ -15,7 +15,7 @@
     "access_rule": "현재 주차 1개만 클릭 가능(지난·미래 모두 잠금). locked는 <a> 아닌 <div>.",
     "login_flow": "index에서 이름+PIN(1234) → sessionStorage['mgt:name'] → 주차 그리드 → 현재 주차 → answer.html?sheetId&week. answer.html은 sessionStorage 있으면 이름/PIN 스킵, 없으면 자체 폴백. verifyPin() 분리.",
     "weekly_op": "매주 네이티브 구글 시트 준비 후 index.html SHEETS에 '주차: 시트ID' 한 줄 추가 + push. 백엔드는 generic이라 매주 안 건드림.",
-    "mobile": "무시 — 학생들 PC로만 접근. 375px 점검 안 함.",
+    "desktop_only": "학생들 PC로만 접근하는 컴퓨터 수업실 전용 서비스. 모바일 폼/375px 최적화는 기본 범위가 아님.",
     "sheet_must_be_native": "Apps Script는 .xlsx 못 엶. 매주 네이티브 구글 시트여야 함.",
     "data_contract": "1교시 탭: A=번호 B=이름 C=학년 D~=질문. 2행=예시(스킵), 3행~=학생. D열 시작 고정, 질문 개수 가변.",
     "deploy_gotcha": "코드 수정 후 배포관리→연필→버전:새 버전. 실행=나 / 액세스=모든 사용자(익명).",
@@ -27,7 +27,7 @@
     { "id": "M2", "title": "백엔드 Apps Script Web App", "status": "done" },
     { "id": "M3", "title": "학생 답안 페이지 answer.html", "status": "done", "note": "Typeform 스텝퍼로 재작업 + 제출 end-to-end 검증 완료" },
     { "id": "M4", "title": "index.html 개편 (로그인 게이트 + 주차→answer 연결 + 디자인)", "status": "done", "note": "11주 토요일 일정, 현재 주차만 접근, Geniestudio. 미커밋." },
-    { "id": "M5", "title": "사이트 전체 디자인 통일 (공유 CSS 토큰)", "status": "in_progress", "note": "index/answer 둘 다 Geniestudio 토큰 인라인 적용됨. 공유 CSS 파일 분리만 잔여." },
+    { "id": "M5", "title": "데스크톱 수업 사이트 UI/UX 개편", "status": "in_progress", "note": "index는 Geniestudio 첫 화면+로그인 패널 전환, answer는 3열 워크스페이스로 재작업 완료. 공유 CSS 파일 분리와 plan.md 동기화 잔여." },
     { "id": "M6", "title": "운영 다듬기 (시트 등록 워크플로우/명단 DB/PIN/이미지)", "status": "todo", "note": "매주 시트 등록 자동화(마스터 시트 config) 검토 중 — 사용자 미결 질문." }
   ]
 }

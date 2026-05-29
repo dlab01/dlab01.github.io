@@ -23,19 +23,24 @@
 - [x] 웹 앱 배포: 실행=나 / 액세스=모든 사용자 (익명 접근 검증됨)
 - [x] 이미지 문항 감지 버그 수정 ("셀 내에 이미지"만 비활성, 주제어 오탐 제거)
 
-### M3. 학생 답안 페이지 (answer.html) — `[x] done`
+### M3. 학생 답안 페이지 (answer.html) — `[x] done` ✅ 백엔드+제출 전부 검증 완료
 - [x] 이름 선택(박노아/김세임/정재윤/한아라) → 질문 폼 → 제출
 - [x] 상태 처리: 로딩 / 에러+재시도 / 빈 / 성공
 - [x] DESIGN.md 토큰 적용 (Sky Wash 배경, Arctic Mist 카드, Midnight Ink 버튼, 라운드)
 - [x] WEBAPP_URL 연결
-- [ ] **제출 end-to-end 검증** (박노아로 제출 → 시트 B/D열 저장 육안 확인) ← 다음 첫 작업
+- [x] 제출 end-to-end 검증 (박노아 제출 → 시트 B/D열 저장 확인 완료)
 
 ### M4. index.html 개편 — `[ ] todo`
 - [ ] 주차 셀이 raw 시트 대신 `answer.html?sheetId=…`로 연결
 - [ ] week → sheetId 매핑 관리 (현재 `LINKS`와 같은 위치)
 - [ ] 주차 잠금 로직 유지 + DESIGN.md 적용
 
-### M5. 사이트 전체 디자인 통일 — `[ ] todo`
+### M5. UI/UX 개편 — `[ ] todo`  ※ 방향 확정 (plan.md §5.1)
+- [ ] **answer.html을 Typeform형 스텝퍼로 재작업** (현재 한 화면 폼 → 한 문제 한 화면)
+  - [ ] 진행바 + N/총개수, 문항 네비게이터(번호 그리드, 완료/빈칸)
+  - [ ] 부드러운 전환(리로드 없음) + 키보드 ←/→ + 자동저장(localStorage)
+  - [ ] 마지막 검토·제출 화면
+- [ ] PIN(1234) 게이트 추가 (프런트, 백엔드 이전 쉽게 분리)
 - [ ] 공유 CSS 토큰 파일 (DESIGN.md custom properties)
 - [ ] index / answer 일관성 + 모바일(375px) 점검
 

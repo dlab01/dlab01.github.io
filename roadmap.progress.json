@@ -4,9 +4,9 @@
   "updatedAt": "2026-05-29 17:28:39 JST (+0900)",
   "deviceLabel": "bishoe01s-MacBook-Air-4.local",
   "branch": "main",
-  "currentFocus": "백엔드+answer.html 완성. 제출 end-to-end 검증 후 index.html 개편으로 진행.",
+  "currentFocus": "백엔드+제출 검증 완료. UI/UX 개편 단계 — answer.html을 Typeform형 스텝퍼로 재작업(방향 확정, plan.md §5.1) + index.html 연결/디자인.",
   "handoff": {
-    "nextFirstAction": "answer.html 미리보기에서 박노아로 답 제출 → 시트 1교시 탭 박노아 행(B열) D열~에 저장됐는지 육안 확인"
+    "nextFirstAction": "answer.html을 Typeform형 스텝퍼로 재작업: 한 문제 한 화면 + 진행바 + 문항 네비게이터(즉시 이동) + 자동저장 + 검토·제출. PIN(1234) 게이트 추가."
   },
   "key_facts": {
     "webapp_url": "https://script.google.com/macros/s/AKfycbzQIPWsAKgGoxGyE4oiN6BeGZcbRbPBA1YrqU2kR2gHfG9Da6gIqNGeU1XBaIPQ4vjy2Q/exec",
@@ -19,7 +19,7 @@
   "milestones": [
     { "id": "M1", "title": "기획 & 문서화", "status": "done" },
     { "id": "M2", "title": "백엔드 Apps Script Web App", "status": "done" },
-    { "id": "M3", "title": "학생 답안 페이지 answer.html", "status": "in_progress", "note": "제출 end-to-end 검증만 남음" },
+    { "id": "M3", "title": "학생 답안 페이지 answer.html", "status": "done", "note": "제출 end-to-end 검증 완료" },
     { "id": "M4", "title": "index.html 개편 (주차→answer 연결 + 디자인)", "status": "todo" },
     { "id": "M5", "title": "사이트 전체 디자인 통일 (공유 CSS 토큰)", "status": "todo" },
     { "id": "M6", "title": "운영 다듬기 (시트 등록 워크플로우/명단 DB/PIN/이미지)", "status": "todo" }

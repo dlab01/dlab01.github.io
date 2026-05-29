@@ -4,10 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MGT 답안 제출</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600&family=Montserrat:wght@500;600&display=swap" rel="stylesheet" />
   <style>
+    @font-face {
+      font-family:"AppleSDGothicNeoLocal";
+      src:url("assets/AppleSDGothicNeo.ttc");
+      font-weight:400 800;
+      font-display:swap;
+    }
+    @font-face {
+      font-family:"NeoDunggeunmo";
+      src:url("assets/neodgm.ttf") format("truetype");
+      font-display:swap;
+    }
     :root {
       --color-midnight-ink:#181d27;
       --color-arctic-mist:#fafdff;
@@ -24,8 +32,9 @@
       --color-luminous-blue:#0099ff;
       --gradient-whisper-fade-blue:linear-gradient(rgb(229,246,255) 0%, rgb(194,233,255) 100%);
       --gradient-whisper-fade-violet:linear-gradient(rgb(244,235,255) 0%, rgb(228,204,255) 100%);
-      --font-geist:'Inter',ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      --font-aeonik:'Montserrat',ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      --font-geist:"AppleSDGothicNeoLocal","Apple SD Gothic Neo",ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      --font-aeonik:var(--font-geist);
+      --font-pixel:"NeoDunggeunmo",var(--font-geist);
       --shadow-lg:rgba(4,69,144,0.08) 0px 14px 20px 4px;
     }
     * { box-sizing:border-box; margin:0; padding:0; }
@@ -63,10 +72,10 @@
     }
     .brand strong {
       display:block;
-      font-family:var(--font-aeonik);
+      font-family:var(--font-pixel);
       font-size:20px;
       line-height:1.25;
-      letter-spacing:-0.02em;
+      letter-spacing:0;
       font-weight:600;
     }
     .brand span {
@@ -137,8 +146,10 @@
       border-radius:90px;
       background:var(--color-ghostly-blue);
       color:var(--color-electric-blue);
+      font-family:var(--font-pixel);
       font-size:13px;
       font-weight:600;
+      letter-spacing:0;
       margin-bottom:28px;
     }
     h1, h2, h3 {
@@ -422,8 +433,10 @@
       border-radius:90px;
       background:var(--color-ghostly-blue);
       color:var(--color-electric-blue);
+      font-family:var(--font-pixel);
       font-size:13px;
       font-weight:600;
+      letter-spacing:0;
     }
     .save-state {
       color:var(--color-ash-gray);
@@ -493,10 +506,10 @@
     }
     .stat-card strong {
       display:block;
-      font-family:var(--font-aeonik);
+      font-family:var(--font-pixel);
       font-size:28px;
       line-height:1.05;
-      letter-spacing:-0.02em;
+      letter-spacing:0;
     }
     .stat-card span {
       display:block;
@@ -636,7 +649,7 @@
         <img src="dlab.png" alt="D.LAB" />
         <div>
           <strong id="topTitle">MGT 답안 제출</strong>
-          <span id="topSubtitle">컴퓨터 수업실 워크스페이스</span>
+          <span id="topSubtitle">주차별 답안 작성</span>
         </div>
       </div>
       <div class="top-actions">
@@ -651,8 +664,7 @@
           <div class="eyebrow" id="gateWeek">MGT</div>
           <h1>답안 화면에 들어가기 전에 본인 확인을 해요.</h1>
           <p class="lead">
-            이 화면은 컴퓨터 수업실에서 쓰는 넓은 풀이 공간입니다.
-            로그인 후 왼쪽 문항 목록, 가운데 답안 작성, 오른쪽 제출 패널을 함께 보게 됩니다.
+            로그인 후 왼쪽 문항 목록, 가운데 답안 작성, 오른쪽 제출 패널을 함께 봅니다.
           </p>
         </div>
         <div class="gate-card">
@@ -754,6 +766,7 @@
     const PARAMS = new URLSearchParams(location.search);
     const SHEET_ID = PARAMS.get('sheetId') || '';
     const WEEK = PARAMS.get('week') || '';
+    const FORCE_REFRESH = PARAMS.get('refresh') === '1';
 
     const $ = (id) => document.getElementById(id);
     const SCREENS = ['screenGate', 'screenLoad', 'screenWorkspace', 'screenDone'];
@@ -775,6 +788,10 @@
 
     function storeKey() {
       return `mgt:answers:${SHEET_ID || 'default'}:${selectedName}`;
+    }
+
+    function questionsStoreKey() {
+      return `mgt:questions:v1:${SHEET_ID || WEEK || 'default'}`;
     }
 
     function showLoginStep(id) {
@@ -874,7 +891,42 @@
       }, 120);
     }
 
+    function restoreQuestions() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(questionsStoreKey()) || '{}');
+        if (!saved || !Array.isArray(saved.questions) || !saved.questions.length) return false;
+        questions = saved.questions;
+        return true;
+      } catch (_) {
+        return false;
+      }
+    }
+
+    function saveQuestions() {
+      try {
+        localStorage.setItem(questionsStoreKey(), JSON.stringify({
+          savedAt: new Date().toISOString(),
+          questions,
+        }));
+      } catch (_) {}
+    }
+
+    function startWorkspace() {
+      restoreAnswers();
+      current = 0;
+      buildQuestionList();
+      renderQuestion();
+      showScreen('screenWorkspace');
+    }
+
     async function loadQuestions() {
+      if (FORCE_REFRESH) {
+        try { localStorage.removeItem(questionsStoreKey()); } catch (_) {}
+      } else if (restoreQuestions()) {
+        startWorkspace();
+        return;
+      }
+
       $('loadBanner').innerHTML = '';
       showScreen('screenLoad');
       try {
@@ -887,11 +939,8 @@
           $('loadBanner').innerHTML = '<div class="banner error">아직 등록된 문제가 없어요.</div>';
           return;
         }
-        restoreAnswers();
-        current = 0;
-        buildQuestionList();
-        renderQuestion();
-        showScreen('screenWorkspace');
+        saveQuestions();
+        startWorkspace();
       } catch (err) {
         $('loadBanner').innerHTML =
           '<div class="banner error">문제를 불러오지 못했어요. 인터넷을 확인하고 다시 시도해주세요.</div>' +
